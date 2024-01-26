@@ -1,0 +1,19 @@
+.index-body {
+    width: 90%;
+    overflow-y: scroll;
+}
+
+.github-tag {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    text-decoration: none;
+    z-index: 999;
+    cursor: pointer;
+}
+
+@media ( max-width: 994px ) {
+    .index-body {
+        width: 100%;
+    }
+}
