@@ -1,63 +1,56 @@
-import { useEffect, useRef, useState } from 'react';
-import SetRowsColumns from '@/Components/SetRowsColumns';
+import { useContext, useEffect, useRef, useState } from 'react';
 import MatrixRepresentation from '@/Components/MatrixRepresentation';
 import { toast } from 'react-hot-toast'
-import { useCopiedArray } from '@/Lib/StorageContext';
-import Head from 'next/head'
+import { CopyArrayContext } from '@/Lib/CopyArrayContext';
+import Head from 'next/head';
+import CompleteMatrixBlock from '@/Components/CompleteMatrixBlock';
 
 export default function ScalarMultiplicationIndex(){
-    const [ rowsFirst, setRowsFirst ] = useState(2);
-    const [ colsFirst, setColsFirst ] = useState( 2 );
 
-    const [twoDArrayFirst, setTwoDArrayFirst] = useState([]);
+    // Matrix
+    const [ rows, setRows ] = useState(2);
+    const [ cols, setCols ] = useState( 2 );
+    const [twoDArray, setTwoDArray] = useState([]);
 
+    // Multiply With
     const  inputRef = useRef( null );
 
+    // Result
     const [ multiplication, setMultiplication ] = useState( undefined );
 
-    const onChangeForMultiplication = () => {
-        setMultiplication( undefined );
-    }
-    function deepCopy(arr) {
-        return arr.map(row => [...row]);
-    }
-    const findFirst = () => {
-        let arr = deepCopy( twoDArrayFirst );
+    // function to calculate scalar product
+    const findScalarProduct = () => {
+        let arr = twoDArray.map( row => [...row] );
         const value = Number( inputRef.current.value );
-        for ( let i = 0; i < rowsFirst; i++ )
-            for ( let j = 0; j < colsFirst; j++)
+        for ( let i = 0; i < rows; i++ )
+            for ( let j = 0; j < cols; j++)
                 arr[i][j] *= value;
         setMultiplication(arr);
-        handleScroll();
     }
 
-    const { copiedArray, copiedRowsCount, copiedColsCount } = useCopiedArray();
-    const PasteFirstArray = (rowsRef, colsRef) => {
-        if( copiedArray != null ) {
-            if ( copiedRowsCount !== copiedColsCount ) {
-                toast.error('Rows and Cols should be equal!');
-                return;
-            }
-            toast.success('Copied Matrix Pasted!');
-            setRowsFirst( copiedRowsCount );
-            setColsFirst( copiedColsCount );
-            setTwoDArrayFirst( copiedArray );
+    // handling pasting of copied array
+    const { copiedArray, copiedRowsCount, copiedColsCount } = useContext(CopyArrayContext);
+    const pasteArray = (rowsRef, colsRef) => {
+        if( copiedArray != undefined ) {
+            setRows( copiedRowsCount );
+            setCols( copiedColsCount );
+            setTwoDArray( copiedArray );
             rowsRef.current.value = copiedRowsCount;
             colsRef.current.value = copiedColsCount;
+
+            toast.success('Copied Matrix Pasted!');
         }else {
             toast.error('No Matrix Copied From Site!');
         }
     };
 
+    // scrolling to result 
     useEffect( ()=> {
-        handleScroll();
-    }, [multiplication]);
-    const handleScroll = () => {
-        const targetElement = document.getElementById('yourH3Id');
+        const targetElement = document.getElementById('result');
         if (targetElement) {
             targetElement.scrollIntoView({ behavior: 'smooth' });
         }
-    };
+    }, [multiplication]);
 
     return(
         <>
@@ -67,20 +60,21 @@ export default function ScalarMultiplicationIndex(){
             <meta name="viewport" content="width=device-width, initial-scale=1" />
             <link rel="icon" href="/favicon.ico" />
         </Head>
+
         <div className='h-100 col-lg-11 col-md-12 pt-3' style={{overflowY:'scroll'}} >
             <h3 className='fst-italic d-inline-block text-dark mx-5 bg-light display-5'>Scalar multiplication: </h3>
 
-
             <div className='d-flex flex-wrap'>
-                <div className='col-md-6 p-md-2 p-3'>
-                    <SetRowsColumns pasteArray={PasteFirstArray} onChange={onChangeForMultiplication} setColumns={setColsFirst} setRows={setRowsFirst} />
-                    { 
-                        rowsFirst && colsFirst ?
-                        <MatrixRepresentation onChange={onChangeForMultiplication}  rowsCount={rowsFirst} colsCount={colsFirst} twoDArray={twoDArrayFirst} setTwoDArray={setTwoDArrayFirst} />
-                        :
-                        <></>
-                    }
-                </div>
+                <CompleteMatrixBlock
+                    rows={rows}
+                    setRows={setRows}
+                    cols={cols}
+                    setColumns={setCols}
+                    array={twoDArray}
+                    setArray={setTwoDArray}
+                    setResult={setMultiplication}
+                    pasteArray={pasteArray}
+                />
                 <div className='col-md-6 p-md-2 p-3' >
                     <h3 className='fst-italic d-inline-block text-dark bg-light p-2 h5'>Multiply With: </h3>
                     <div>
@@ -92,25 +86,27 @@ export default function ScalarMultiplicationIndex(){
             <div className='d-flex flex-wrap p-md-2 p-3'>
                 <div>
                 {
-                    rowsFirst && colsFirst ?
-                    <button onClick={()=> findFirst() } className="btn btn-primary m-4">
+                    rows && cols &&
+                    <button onClick={()=> findScalarProduct() } className="btn btn-primary m-4">
                         Multiply
                     </button>
-                    :<></>
                 }
                 </div>
-                
-                <div >
-                    <div id='yourH3Id' className='fst-italic text-dark bg-light p-2 h5'>Result: </div>
+                <div>
+                    <div id='result' className='fst-italic text-dark bg-light p-2 h5'>Result: </div>
                     {
-                        typeof multiplication !== 'undefined' && rowsFirst && colsFirst  ?
-                        <MatrixRepresentation editable={false} rowsCount={rowsFirst} colsCount={colsFirst} twoDArray={multiplication}  />
-                        :
-                        <></>
+                        typeof multiplication !== 'undefined' && rows && cols  &&
+                        <MatrixRepresentation 
+                            editable={false} 
+                            rowsCount={rows} 
+                            colsCount={cols} 
+                            twoDArray={multiplication}  
+                        />
                     }
                 </div>
             </div>
         </div>
+
         </>
     );
 

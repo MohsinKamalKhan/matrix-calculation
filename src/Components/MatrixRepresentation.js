@@ -1,9 +1,9 @@
-import { useCopiedArray } from '@/Lib/StorageContext';
-import { useEffect } from 'react';
+import { CopyArrayContext } from '@/Lib/CopyArrayContext';
+import { useContext, useEffect } from 'react';
 import { toast } from 'react-hot-toast';
 
 export default function MatrixRepresentation({
-  onChange,
+  setResult,
   rowsCount,
   colsCount,
   twoDArray,
@@ -13,48 +13,42 @@ export default function MatrixRepresentation({
   const placeholderArray = new Array(rowsCount).fill(null);
   const placeholderArrayCols = new Array(colsCount).fill(null);
 
-  function setToZero() {
+  useEffect( () => {
     const newArray = [];
+  
     for ( let i = 0; i < rowsCount; i++ )
       newArray[i] = [];
+
     for ( let i = 0; i < rowsCount; i++ )
       for ( let j = 0; j < colsCount; j++ )
         newArray[i][j] = 0;
+
+    console.log('here')
     if ( setTwoDArray ) setTwoDArray( newArray );
-  }
-  useEffect( () => {
-    setToZero();
   }, []);
 
 
-  function deepCopy(arr) {
-    return arr.map(row => [...row]);
-  }
-
   const setElement = (i, j, newValue) => {
-    const newArray = deepCopy(twoDArray);
-    if (newArray[i]) newArray[i] = [...newArray[i]];
-    else newArray[i] = [];
+    const newArray = twoDArray.map( row => [...row]);
     newArray[i][j] = newValue;
-    setTwoDArray(newArray);
+    setTwoDArray( newArray );
   };
 
   const handleChange = (indexOut, indexIn) => (event) => {
-    onChange();
+    setResult( undefined );
     setElement(indexOut, indexIn, Number(event.target.value));
   };
 
   // handling copying to clipboard state
-  const { updateCopiedArray } = useCopiedArray();
+  const { updateCopiedArray } = useContext( CopyArrayContext );
   const handleCopyToClipboard = async () => {
-    const arr = deepCopy(twoDArray);
+    const arr = twoDArray.map(row => [...row]);
     updateCopiedArray( arr, rowsCount, colsCount);
     toast.success('Array Copied!');
   };
 
   return (
     <div className='d-inline-block'>
-
       <div>
       {placeholderArray.map((_, indexOuter) => (
         <div key={indexOuter} className="d-flex">

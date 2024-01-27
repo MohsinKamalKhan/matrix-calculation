@@ -1,6 +1,7 @@
 .index-body {
     width: 90%;
     overflow-y: scroll;
+    scroll-behavior: smooth;
 }
 
 .github-tag {
@@ -11,6 +12,17 @@
     z-index: 999;
     cursor: pointer;
 }
+
+.image {
+    background-image: url('./backgroundImage.jpeg');
+    position:absolute;
+    top: 0; 
+    left: 0;
+    width: 100vw;
+    background-size: cover;
+    height: 100%;
+}
+
 
 @media ( max-width: 994px ) {
     .index-body {

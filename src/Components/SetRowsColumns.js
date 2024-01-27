@@ -3,7 +3,14 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { toast } from 'react-hot-toast'
 
-export default function SetRowsColumns({ pasteArray, onChange, setRows, setColumns, isCols = true}){
+export default function SetRowsColumns({ 
+    pasteArray, 
+    setResult, 
+    setRows, 
+    setColumns, 
+    isCols = true
+}){
+
     const rowsRef = useRef( null );
     const colsRef = useRef( null );
 
@@ -13,22 +20,33 @@ export default function SetRowsColumns({ pasteArray, onChange, setRows, setColum
     }, []);
 
     function settingRows(){
-        onChange();
-        if(Number(rowsRef.current.value) > 9 )
+        setResult( undefined );
+        const rowsCount = rowsRef.current.value;
+        if(Number(rowsCount) > 9 )
             toast.error("Rows should be less than 10!")
         else{
-            setRows( Number(rowsRef.current.value) )
+            if ( rowsCount == '' ) {
+                setRows( undefined );
+                return;
+            }
+            setRows( Number(rowsCount) )
             if ( isCols === false ) 
-                setColumns( Number(rowsRef.current.value) )
+                setColumns( Number(rowsCount) )
         }
     }
 
     function settingCols(){
-        onChange();
-        if(Number(colsRef.current.value) > 9 )
+        setResult( undefined );
+        const colsCount = colsRef.current.value;
+        if(Number(colsCount) > 9 )
             toast.error("Cols should be less than 10!")
-        else
-            setColumns( Number(colsRef.current.value) )
+        else{
+            if ( colsCount == '' ) {
+                setColumns( undefined );
+                return;
+            }
+            setColumns( Number(colsCount) )
+        }
     }
 
     return(

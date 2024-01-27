@@ -1,32 +1,32 @@
 import styles from './SideBarDesktop.module.css';
+import Link from 'next/link';
 
+const panels = [
+    { text: "Home", link: "./", key:1 },
+    { text: "Determinant of NxN Matrix", link: "./determinant",  key:2},
+    { text: "Multiplication of 2 NxN Matrices", link: "./multiplication",  key:3},
+    { text: "Addition of 2 NxN Matrices", link: "./addition",  key:4},
+    { text: "Rank of NxN Matrix", link: "./rank",  key:5},
+    { text: "Scalar Multiplication of NxN Matrix", link: "./scalar-multiplication",  key:6},
+    { text: "Transpose of NxN Matrix", link: "./transpose",  key:7},
+    { text: "Inverse of NxN Matrix", link: "./inverse",  key:8},
+]
 
 export default function SideBarDesktop ( ) {
 
     const classname = `enlarge fw-bold list-group-item bg-dark text-white list-group-item-action py-2 ripple ${styles["side-bar-item"]}`;
 
+    const sidebar = panels.map( panel => {
+        return (
+            <Link key={panel.key} href={panel.link}  className={`${classname}`} aria-current="true">
+                <span>{panel.text}</span>
+            </Link>
+        )
+    } )
+
     return (
         <div className={ styles["side-bar"] }>
-                <a  href="./"  className={`${classname}`} aria-current="true">
-                    <span>Home</span>
-                </a>
-                <a  href="./determinant" className={`${classname}`} aria-current="true">
-                    <span>Determinant of NxN Matrix</span>
-                </a>
-                <a href="./multiplication" className={`${classname}`}>
-                    <span>Multiplication of 2 NxN Matrices</span>
-                </a>
-                <a href="./addition" className={`${classname}`} >
-                    <span>Addition of 2 NxN Matrices</span></a>
-                <a href="./rank" className={`${classname}`}>
-                    <span>Rank of NxN Matrix</span></a>
-                <a href="./scalar-multiplication" className={`${classname}`} >
-                    <span>Scalar Multiplication of NxN Matrix</span>
-                </a>
-                <a href="./transpose" className={`${classname}`}>
-                    <span>Transpose of NxN Matrix</span></a>
-                <a href="./inverse" className={`${classname}`}>
-                    <span>Inverse on NxN Matrix</span></a>
+            {sidebar}
         </div>
     );
 }
