@@ -8,7 +8,7 @@ const panels = [
     { text: "Multiplication of 2 NxN Matrices", link: "./multiplication",  key:2},
     { text: "Addition of 2 NxN Matrices", link: "./addition",  key:3},
     { text: "Rank of NxN Matrix", link: "./rank",  key:4},
-    { text: "Scalar Multiplication of NxN Matrix", link: "./scalar-multiplicaton",  key:5},
+    { text: "Scalar Multiplication of NxN Matrix", link: "./scalar-multiplication",  key:5},
     { text: "Transpose of NxN Matrix", link: "./transpose",  key:6},
     { text: "Inverse of NxN Matrix", link: "./inverse",  key:7},
 ]
