@@ -8,7 +8,7 @@ export default function SetRowsColumns({
     setResult, 
     setRows, 
     setColumns, 
-    isCols = true
+    isCols
 }){
 
     const rowsRef = useRef( null );

@@ -57,6 +57,7 @@ export default function Determinant(){
                     rows={rows}
                     setRows={setRows}
                     cols={cols}
+                    isCols={false}
                     setColumns={setCols}
                     array={twoDArray}
                     setArray={setTwoDArray}

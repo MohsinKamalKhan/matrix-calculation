@@ -10,7 +10,8 @@ export default function CompleteMatrixBlock(
     array,
     setArray,
     setResult,
-    pasteArray
+    pasteArray,
+    isCols = true
 }
 ){
 
@@ -21,6 +22,7 @@ export default function CompleteMatrixBlock(
                 setResult={setResult} 
                 setColumns={setColumns} 
                 setRows={setRows} 
+                isCols={isCols}
             />
             { 
                 rows && cols &&
