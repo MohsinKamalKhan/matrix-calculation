@@ -8,7 +8,8 @@ export default function MatrixRepresentation({
   colsCount,
   twoDArray,
   editable = true,
-  setTwoDArray
+  setTwoDArray,
+  allowText = false
 }) {
   const placeholderArray = new Array(rowsCount).fill(null);
   const placeholderArrayCols = new Array(colsCount).fill(null);
@@ -55,7 +56,7 @@ export default function MatrixRepresentation({
           {placeholderArrayCols.map((_, indexInner) => (
             <div key={indexOuter + indexInner}>
               <input
-                type='number'
+                type={allowText ? 'text' : 'number'}
                 readOnly={!editable}
                 style={{ width: "50px" }}
                 value={(twoDArray[indexOuter] && twoDArray[indexOuter][indexInner]) || 0}
