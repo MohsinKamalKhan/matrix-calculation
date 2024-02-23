@@ -33,7 +33,6 @@ export default function Determinant(){
             setCols( copiedColsCount );
             setTwoDArray( copiedArray );
             rowsRef.current.value = copiedRowsCount;
-            colsRef.current.value = copiedColsCount;
             toast.success('Copied Matrix Pasted!');
         }else {
             toast.error('No Matrix Copied From Site!');

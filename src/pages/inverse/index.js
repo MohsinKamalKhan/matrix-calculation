@@ -35,7 +35,6 @@ export default function Inverse(){
             setCols( copiedColsCount );
             setTwoDArray( copiedArray );
             rowsRef.current.value = copiedRowsCount;
-            colsRef.current.value = copiedColsCount;
             toast.success('Copied Matrix Pasted!');
         }else {
             toast.error('No Matrix Copied From Site!');
@@ -63,6 +62,7 @@ export default function Inverse(){
                     setArray={setTwoDArray}
                     setResult={setInverse}
                     pasteArray={pasteArray}
+                    isCols={false}
                 />
             </div>
 

@@ -14,7 +14,6 @@ export default function CompleteMatrixBlock(
     isCols = true
 }
 ){
-
     return (
         <div className='col-md-6 p-md-2 p-3'>
             <SetRowsColumns 

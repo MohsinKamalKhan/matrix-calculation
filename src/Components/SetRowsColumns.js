@@ -27,6 +27,8 @@ export default function SetRowsColumns({
         else{
             if ( rowsCount == '' ) {
                 setRows( undefined );
+                if ( isCols === false ) 
+                    setColumns( undefined )
                 return;
             }
             setRows( Number(rowsCount) )
