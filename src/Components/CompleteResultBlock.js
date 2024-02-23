@@ -27,7 +27,7 @@ export default function CompleteResultBlock(
                 <div id="result" className='fst-italic text-dark bg-light p-2 h5'>Result: </div>
                 {
                     typeof result !== 'undefined' ?
-                    <MatrixRepresentation editable={false} rowsCount={rows} colsCount={cols} twoDArray={result}  />
+                    <MatrixRepresentation allowText={true} editable={false} rowsCount={rows} colsCount={cols} twoDArray={result}  />
                     :
                     <></>
                 }
