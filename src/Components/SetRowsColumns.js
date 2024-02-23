@@ -64,6 +64,7 @@ export default function SetRowsColumns({
                     placeholder="Rows"
                     aria-label="Username"
                     aria-describedby="basic-addon1"
+                    type='number'
                 />
             </InputGroup>
         <InputGroup className="mb-2 w-75">
@@ -76,6 +77,7 @@ export default function SetRowsColumns({
                         placeholder="Columns"
                         aria-label="Username"
                         aria-describedby="basic-addon1"
+                        type='number'
                     />
                 :
                 <></>
