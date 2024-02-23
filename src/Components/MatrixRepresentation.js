@@ -55,9 +55,9 @@ export default function MatrixRepresentation({
           {placeholderArrayCols.map((_, indexInner) => (
             <div key={indexOuter + indexInner}>
               <input
+                type='number'
                 readOnly={!editable}
                 style={{ width: "50px" }}
-                type="text"
                 value={(twoDArray[indexOuter] && twoDArray[indexOuter][indexInner]) || 0}
                 onChange={handleChange(indexOuter, indexInner)}
               />
